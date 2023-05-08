@@ -59,14 +59,14 @@ class Subscription(models.Model):
     service = models.ForeignKey(Service, related_name='subscriptions', on_delete=models.PROTECT)
     plan = models.ForeignKey(Plan, related_name='subscriptions', on_delete=models.PROTECT)
     price = models.PositiveIntegerField(default=0)
-    comment = models.CharField(max_length=50, default='')
+    comment = models.CharField(max_length=50, default='', db_index=True)
 
     def save(self, *args,  **kwargs):
-        creating = not bool(self.id)
+        # creating = not bool(self.id)
 
         result = super().save(*args, **kwargs)
-        if creating:
-            set_price.delay(self.id)
+        # if creating:
+        #     set_price.delay(self.id)
         return result
 
 
